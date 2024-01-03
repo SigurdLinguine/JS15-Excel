@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS15 Excel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <input type="file" id="input">
+
+    <div class="images1">
+        <h4>Alle elever</h4>
+        <img alt="1" id="1">
+        <img alt="2" id="2">
+        <img alt="3" id="3">
+        <img alt="4" id="4">
+        <img alt="5" id="5">
+        <img alt="6" id="6">
+        <img alt="7" id="7">
+        <img alt="8" id="8">
+        <img alt="9" id="9">
+        <img alt="10" id="10">
+        <img alt="11" id="11">
+    </div>
+
+    <div>
+        <h4>Første elev i listen</h4>
+        <img alt="o3" id="o3">
+    </div>
+
+    <div class="asker">
+        <h4>Alle som går på Asker</h4>
+        <img alt="asker1" id="16">
+        <img alt="asker2" id="17">
+    </div>
+
+    <div class="femten">
+        <h4>Alle som er 15</h4>
+        <img alt="15" id="13">
+        <img alt="15" id="14">
+        <img alt="15" id="15">
+    </div>
+
+    <div class="eldst">
+        <h4>Den eldste eleven</h4>
+        <img alt="eldst" id="eldst">
+        <p id="eldstNavn"></p>
+    </div>
+
+    <script src="https://unpkg.com/read-excel-file@5.x/bundle/read-excel-file.min.js"></script>
+
+<script>
+  var input = document.getElementById('input')
+  input.addEventListener('change', function() {
+    readXlsxFile(input.files[0]).then(function(rows) {
+        // Oppgave 1
+        rows.forEach(element => {
+            console.log(element[2] + " " + element[3])
+        });
+
+        // Oppgave 2
+        for (let i = 1; i < rows.length; i++) {
+            document.getElementById(i).src=rows[i][7]
+        }
+
+        // Oppgave 3
+        document.getElementById("o3").src=rows[1][7]
+
+        // Oppgave 4
+        let y = 16
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i][8] == "Asker") {
+                document.getElementById(y).src=rows[i][7]
+                y++
+            }
+        }
+
+        // Oppgave 5
+        let x = 13
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i][4] == 15) {
+                document.getElementById(x).src=rows[i][7]
+                x++
+            }  
+        }
+
+        // Oppgave 6
+        let highest = 0
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i][4] > highest) {
+                highest = rows[i][4]
+            }            
+        }
+        for (let i = 0; i < rows.length; i++) {
+            if (rows[i][4] == 25) {
+                document.getElementById("eldst").src=rows[i][7]
+                document.getElementById("eldstNavn").innerHTML = rows[i][2] + " " + rows[i][3] + ", " + rows[i][4]
+            }
+        }
+
+    })
+  })
+</script>
+</body>
+</html>
